@@ -1,0 +1,105 @@
+[build-system]
+requires = ["setuptools >= 61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aoc24"
+version = "0.1.0"
+dependencies = []
+requires-python = ">=3.13"
+authors = [{name = "Vincent Bonino"}]
+description = "My attempts to solve Eric Wastl's Advent Of Code puzzles."
+readme = "README.md"
+
+[project.optional-dependencies]
+# all = ["aoc24"]
+lint = [
+  "mypy",
+  "ruff",
+  "yapf",
+]
+
+
+[project.urls]
+Repository = "https://github.com/Vincent-Bonino/AdventOfCode2024.git"
+
+[project.scripts]
+aoc = "aoc24.__main__:main"
+
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["aoc24"]
+
+
+# Tools
+
+## Mypy
+[tool.mypy]
+ignore_missing_imports = false
+follow_imports = "normal"
+strict = true
+
+
+## Ruff
+[tool.ruff]
+indent-width = 4
+line-length = 120
+output-format = "grouped"
+show-fixes = true
+# show-source = true
+target-version = "py312"
+
+[tool.ruff.format]
+indent-style = "space"
+quote-style = "double"
+
+[tool.ruff.lint]
+preview = true
+select = [
+    "D",    # Pydocstyle
+    # "DOC",  # Pydoclint
+    "E",    # Pycodestyle errors
+    "F",    # Pyflakes
+    "I",    # Isort
+    "PL",   # Pylint
+    "RUF",  # Ruff
+    "UP",   # Pyupgrade
+    "SIM",  # Flake8-simplify
+    "W",    # Pycodestyle warnings
+]
+ignore = [
+  "F401",   # Unused imports
+]
+
+[tool.ruff.lint.per-file-ignores]
+# Ignore some errors in example/template files
+"example.py" = ["PLR6301"]
+
+[tool.ruff.lint.isort]
+from-first = true
+order-by-type = true
+
+[tool.ruff.lint.pydocstyle]
+convention = "numpy"
+
+
+
+## Yapf
+[tool.yapf]
+allow_split_before_dict_value = false
+arithmetic_precedence_indication = true
+based_on_style = "pep8"
+blank_line_before_nested_class_or_def = true
+column_limit=120
+dedent_closing_brackets = true
+indent_dictionary_value = true
+spaces_before_comment = 2
+split_all_top_level_comma_separated_values = true
+split_arguments_when_comma_terminated = true
+split_before_closing_bracket = false
+split_before_dot = true
+split_before_expression_after_opening_paren = true
+split_before_first_argument = true
+split_before_named_assigns = false
+split_complex_comprehension = true
