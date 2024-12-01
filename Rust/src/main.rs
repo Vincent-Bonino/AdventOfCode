@@ -6,6 +6,7 @@ use aoc24::aoc::Aoc24Solution;
 use aoc24::cli::Args;
 
 use aoc24::day00::Day00;
+use aoc24::day01::Day01;
 
 fn main() {
     println!("Advent of Code 2024!\n");
@@ -18,9 +19,11 @@ fn main() {
     }
 
     // Create index of solutions
-    let mut solutions: Vec<Box<dyn Aoc24Solution>> = vec![
-        Box::new(Day00::default()),
-    ];
+    let mut solutions: Vec<Box<dyn Aoc24Solution>> =
+        vec![
+            Box::new(Day00::default()),
+            Box::new(Day01::default()),
+        ];
 
     // Find the right solution
     let mut found: bool = false;
