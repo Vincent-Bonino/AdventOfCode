@@ -8,6 +8,7 @@ from aoc24.solution import Solution
 import aoc24.day00
 import aoc24.day01
 import aoc24.day02
+import aoc24.day03
 
 
 def main() -> None:
