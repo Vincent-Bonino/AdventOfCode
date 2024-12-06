@@ -1,4 +1,5 @@
 use crate::toolbox::coordinates::Coordinates;
+use itertools::Itertools;
 use std::fmt::{format, Debug};
 
 /// Grid of data.
@@ -9,7 +10,7 @@ use std::fmt::{format, Debug};
 /// |
 /// V
 /// x (depth)
-#[derive(Default, Debug)]
+#[derive(Clone, Default, Debug)]
 pub struct Grid<T> {
     data: Vec<Vec<T>>,
 }
@@ -29,11 +30,23 @@ impl<T: Debug> Grid<T> {
         self.data.first().expect("Empty grid").len()
     }
 
-    fn is_in_bounds(&self, coordinates: &Coordinates) -> bool {
+    pub fn is_in_bounds(&self, coordinates: &Coordinates) -> bool {
         coordinates.x >= 0
             && coordinates.y >= 0
             && (0..self.depth()).contains(&(coordinates.x as usize))
             && (0..self.width()).contains(&(coordinates.y as usize))
+    }
+
+    /// Replace a value in the data.
+    ///
+    /// Returns `true` if the change occurred, `false` otherwise.
+    pub fn replace(&mut self, coordinates: &Coordinates, value: T) -> bool {
+        if !self.is_in_bounds(coordinates) {
+            return false;
+        }
+
+        self.data[coordinates.x as usize][coordinates.y as usize] = value;
+        true
     }
 
     // Public usage

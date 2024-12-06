@@ -1,6 +1,6 @@
 use crate::toolbox::Direction;
 
-#[derive(Copy, Clone, Debug)]
+#[derive(Copy, Clone, Debug, Default, Eq, Hash, PartialEq)]
 pub struct Coordinates {
     pub x: i32,
     pub y: i32,

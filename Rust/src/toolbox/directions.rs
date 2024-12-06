@@ -1,4 +1,4 @@
-#[derive(Debug, Eq, PartialEq)]
+#[derive(Debug, Eq, Hash, PartialEq, Clone, Copy)]
 pub enum Direction {
     N,
     NE,
@@ -24,6 +24,16 @@ impl Direction {
         }
     }
 
+    pub fn left(&self) -> Self {
+        match self {
+            Direction::N => Direction::W,
+            Direction::W => Direction::S,
+            Direction::S => Direction::E,
+            Direction::E => Direction::N,
+            _ => unimplemented!("No left() for diagonal directions"),
+        }
+    }
+
     pub fn opposite(&self) -> Self {
         match self {
             Direction::N => Direction::S,
@@ -34,6 +44,16 @@ impl Direction {
             Direction::SW => Direction::NE,
             Direction::W => Direction::E,
             Direction::NW => Direction::SE,
+        }
+    }
+
+    pub fn right(&self) -> Self {
+        match self {
+            Direction::N => Direction::E,
+            Direction::E => Direction::S,
+            Direction::S => Direction::W,
+            Direction::W => Direction::N,
+            _ => unimplemented!("No right() for diagonal directions"),
         }
     }
 
