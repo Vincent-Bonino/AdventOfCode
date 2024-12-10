@@ -1,5 +1,4 @@
 /// solve_part_one is [`Memory::optimize_space`]
-
 use crate::day09::model::{Memory, MemoryObject};
 use itertools::Itertools;
 use std::ops::Index;

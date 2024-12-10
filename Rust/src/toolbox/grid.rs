@@ -15,7 +15,7 @@ pub struct Grid<T> {
     data: Vec<Vec<T>>,
 }
 
-impl<T: Debug> Grid<T> {
+impl<T> Grid<T> {
     pub fn new(data: Vec<Vec<T>>) -> Self {
         Grid { data }
     }
@@ -51,6 +51,21 @@ impl<T: Debug> Grid<T> {
 
     // Public usage
 
+    pub fn get_coordinates_vec(&self) -> Vec<Coordinates> {
+        let mut coordinates: Vec<Coordinates> = Vec::with_capacity(self.depth() * self.width());
+
+        for i in 0..self.depth() {
+            for j in 0..self.width() {
+                coordinates.push(Coordinates {
+                    x: i as i32,
+                    y: j as i32,
+                });
+            }
+        }
+
+        coordinates
+    }
+
     pub fn get_ref(&self, coordinates: &Coordinates) -> Option<&T> {
         if !self.is_in_bounds(coordinates) {
             return None;
@@ -62,9 +77,9 @@ impl<T: Debug> Grid<T> {
             Some(sub_arr) => sub_arr.get(coordinates.y as usize),
         }
     }
+}
 
-    // Display
-
+impl<T: Debug> Grid<T> {
     pub fn show_surroundings(&self, coordinates: &Coordinates, depth: usize) {
         let min_x: i32 = coordinates.x - depth as i32;
         let max_x: i32 = coordinates.x + depth as i32;
@@ -80,6 +95,28 @@ impl<T: Debug> Grid<T> {
                     Some(val) => result.push_str(&format!("{val:?}")),
                 }
             }
+            result.push('\n');
+        }
+
+        println!("{result}");
+    }
+
+    pub fn show_path(&self, path: &[Coordinates], default: char) {
+        let mut result: String = String::new();
+
+        for x in 0..self.depth() {
+            for y in 0..self.width() {
+                let pos: Coordinates = Coordinates {
+                    x: x as i32,
+                    y: y as i32,
+                };
+                if path.contains(&pos) {
+                    result.push_str(&format!("{:?}", self.get_ref(&pos).unwrap()));
+                } else {
+                    result.push(default)
+                }
+            }
+
             result.push('\n');
         }
 
