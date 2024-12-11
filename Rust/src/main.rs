@@ -16,6 +16,7 @@ use aoc24::day07::Day07;
 use aoc24::day08::Day08;
 use aoc24::day09::Day09;
 use aoc24::day10::Day10;
+use aoc24::day11::Day11;
 
 fn main() {
     println!("Advent of Code 2024!\n");
@@ -40,6 +41,7 @@ fn main() {
         Box::new(Day08::default()),
         Box::new(Day09::default()),
         Box::new(Day10::default()),
+        Box::new(Day11::default()),
     ];
 
     // Find the right solution
