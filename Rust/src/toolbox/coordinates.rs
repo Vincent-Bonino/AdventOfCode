@@ -14,6 +14,27 @@ impl Coordinates {
         (self.x - other.x, self.y - other.y)
     }
 
+    pub fn neighbours4(&self) -> Vec<Coordinates> {
+        Direction::neighbours4()
+            .iter()
+            .map(|dir| self.step(dir))
+            .collect()
+    }
+
+    pub fn neighbours4_diagonal(&self) -> Vec<Coordinates> {
+        Direction::neighbours4_diagonal()
+            .iter()
+            .map(|dir| self.step(dir))
+            .collect()
+    }
+
+    pub fn neighbours8(&self) -> Vec<Coordinates> {
+        Direction::neighbours8()
+            .iter()
+            .map(|dir| self.step(dir))
+            .collect()
+    }
+
     pub fn with_delta(&self, delta: (i32, i32), add: bool) -> Self {
         match add {
             true => Coordinates {

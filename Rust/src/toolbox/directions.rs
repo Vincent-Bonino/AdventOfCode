@@ -11,6 +11,20 @@ pub enum Direction {
 }
 
 impl Direction {
+    pub fn from_delta(delta: (i32, i32)) -> Self {
+        match delta {
+            (-1, 0) => Direction::N,
+            (-1, 1) => Direction::NE,
+            (0, 1) => Direction::E,
+            (1, 1) => Direction::SE,
+            (1, 0) => Direction::S,
+            (1, -1) => Direction::SW,
+            (0, -1) => Direction::W,
+            (-1, -1) => Direction::NW,
+            _ => panic!("Invalid delta for direction"),
+        }
+    }
+
     pub fn get_delta(&self) -> (i32, i32) {
         match self {
             Direction::N => (-1, 0),

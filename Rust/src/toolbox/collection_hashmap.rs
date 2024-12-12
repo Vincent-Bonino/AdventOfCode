@@ -18,12 +18,6 @@ impl<K: Eq + Hash, T> CollectionHashMap<K, T> {
     }
 
     pub fn insert(&mut self, key: K, value: T) {
-        let stored_value: Option<&Vec<T>> = self.hash_map.get(&key);
-        match stored_value {
-            None => {
-                self.hash_map.insert(key, vec![value]);
-            }
-            Some(_) => self.hash_map.get_mut(&key).unwrap().push(value),
-        };
+        self.hash_map.entry(key).or_default().push(value)
     }
 }

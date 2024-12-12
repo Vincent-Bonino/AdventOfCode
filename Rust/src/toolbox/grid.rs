@@ -17,7 +17,7 @@ pub struct Grid<T> {
 
 impl<T> Grid<T> {
     pub fn new(data: Vec<Vec<T>>) -> Self {
-        Grid { data }
+        Self { data }
     }
 
     /// Get the depth of the grid (length on x-axis / number of sub-arrays)
@@ -31,10 +31,10 @@ impl<T> Grid<T> {
     }
 
     pub fn is_in_bounds(&self, coordinates: &Coordinates) -> bool {
-        coordinates.x >= 0
-            && coordinates.y >= 0
-            && (0..self.depth()).contains(&(coordinates.x as usize))
-            && (0..self.width()).contains(&(coordinates.y as usize))
+        0 <= coordinates.x
+            && (coordinates.x as usize) < self.depth()
+            && 0 <= coordinates.y
+            && (coordinates.y as usize) < self.width()
     }
 
     /// Replace a value in the data.
@@ -48,8 +48,6 @@ impl<T> Grid<T> {
         self.data[coordinates.x as usize][coordinates.y as usize] = value;
         true
     }
-
-    // Public usage
 
     pub fn get_coordinates_vec(&self) -> Vec<Coordinates> {
         let mut coordinates: Vec<Coordinates> = Vec::with_capacity(self.depth() * self.width());
@@ -67,14 +65,37 @@ impl<T> Grid<T> {
     }
 
     pub fn get_ref(&self, coordinates: &Coordinates) -> Option<&T> {
-        if !self.is_in_bounds(coordinates) {
-            return None;
+        match self.is_in_bounds(coordinates) {
+            false => None,
+            true => Some(&self.data[coordinates.x as usize][coordinates.y as usize]),
         }
+    }
 
-        let sub_array: Option<&Vec<T>> = self.data.get(coordinates.x as usize).or(None);
-        match sub_array {
-            None => None,
-            Some(sub_arr) => sub_arr.get(coordinates.y as usize),
+    // Iteration
+
+    pub fn enumerate(&self) -> impl Iterator<Item = (Coordinates, &T)> {
+        self.data.iter().enumerate().flat_map(|(x_idx, sub_arr)| {
+            sub_arr.iter().enumerate().map(move |(y_idx, elmt)| {
+                (
+                    Coordinates {
+                        x: x_idx as i32,
+                        y: y_idx as i32,
+                    },
+                    elmt,
+                )
+            })
+        })
+    }
+
+    pub fn iter(&self) -> impl Iterator<Item = &T> {
+        self.data.iter().flatten()
+    }
+}
+
+impl Grid<char> {
+    pub fn from_string(value: &str) -> Self {
+        Self {
+            data: value.lines().map(|line| line.chars().collect()).collect(),
         }
     }
 }
