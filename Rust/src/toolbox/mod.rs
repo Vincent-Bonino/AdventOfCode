@@ -1,8 +1,9 @@
-mod collection_hashmap;
+pub mod collection_hashmap;
 pub mod coordinates;
 pub mod directions;
 pub mod grid;
-mod iterators;
+pub mod iterators;
+pub mod maths;
 
 // Re-exports
 pub use collection_hashmap::CollectionHashMap;
