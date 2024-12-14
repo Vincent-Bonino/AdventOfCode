@@ -1,5 +1,6 @@
 use crate::toolbox::Direction;
 use std::fmt::{Debug, Formatter};
+use std::ops::{Add, Mul};
 
 #[derive(Copy, Clone, Default, Eq, Hash, PartialEq)]
 pub struct Coordinates {
@@ -60,5 +61,27 @@ impl Coordinates {
 impl Debug for Coordinates {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         write!(f, "Coord({},{})", self.x, self.y)
+    }
+}
+
+impl Add for Coordinates {
+    type Output = Self;
+
+    fn add(self, rhs: Self) -> Self::Output {
+        Self::Output {
+            x: self.x + rhs.x,
+            y: self.y + rhs.y,
+        }
+    }
+}
+
+impl Mul<i32> for Coordinates {
+    type Output = Self;
+
+    fn mul(self, rhs: i32) -> Self::Output {
+        Self::Output {
+            x: self.x * rhs,
+            y: self.y * rhs,
+        }
     }
 }
