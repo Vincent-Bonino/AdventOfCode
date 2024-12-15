@@ -10,9 +10,9 @@ use std::fmt::{format, Debug};
 /// |
 /// V
 /// x (depth)
-#[derive(Clone, Default, Debug)]
+#[derive(Clone, Debug, Default)]
 pub struct Grid<T> {
-    data: Vec<Vec<T>>,
+    pub(crate) data: Vec<Vec<T>>,
 }
 
 impl<T> Grid<T> {
@@ -140,6 +140,54 @@ impl<T: Debug> Grid<T> {
 
             result.push('\n');
         }
+
+        println!("{result}");
+    }
+
+    pub fn display(&self) {
+        self.display_with_mark(None)
+    }
+
+    pub fn display_with_mark(&self, marked_position: Option<Coordinates>) {
+        // Build horizontal indexes bar
+        let mut horizontal_indexes: String = String::with_capacity(self.width() + 5);
+        horizontal_indexes.push_str("     "); // Three spaces used by vertical bar
+        for i in 0..self.width() {
+            horizontal_indexes.push_str(&format!("{}", i % 10));
+        }
+
+        // Now construct the grid
+
+        let mut result: String = String::new();
+
+        // Add upper horizontal indexes bar
+        result.push_str(&format!("{horizontal_indexes}\n"));
+
+        // Add elements line by line (and insert vertical bars)
+        for x in 0..self.depth() {
+            // I will never debug by hand grids larger than 999 !
+            // Also note the separation space
+            let line_index_str: String = format!(" {:0>3} ", x);
+
+            result.push_str(&line_index_str);
+
+            for y in 0..self.width() {
+                let current_coord: Coordinates = Coordinates {
+                    x: x as i32,
+                    y: y as i32,
+                };
+
+                match self.get_ref(&current_coord) {
+                    None => result.push(' '),
+                    Some(_) if marked_position == Some(current_coord) => result.push('@'),
+                    Some(val) => result.push_str(&format!("{val:?}")), // Better if this is 1 char long ....
+                }
+            }
+            result.push_str(&line_index_str);
+            result.push('\n');
+        }
+
+        result.push_str(&horizontal_indexes);
 
         println!("{result}");
     }
