@@ -1,4 +1,5 @@
 use crate::toolbox::coordinates::Coordinates;
+use colored::Colorize;
 use itertools::Itertools;
 use std::fmt::{format, Debug};
 
@@ -122,9 +123,7 @@ impl<T: Debug> Grid<T> {
         println!("{result}");
     }
 
-    pub fn show_path(&self, path: &[Coordinates], default: char) {
-        let mut result: String = String::new();
-
+    pub fn show_path(&self, path: &[Coordinates], path_char: char) {
         for x in 0..self.depth() {
             for y in 0..self.width() {
                 let pos: Coordinates = Coordinates {
@@ -132,16 +131,14 @@ impl<T: Debug> Grid<T> {
                     y: y as i32,
                 };
                 if path.contains(&pos) {
-                    result.push_str(&format!("{:?}", self.get_ref(&pos).unwrap()));
+                    print!("{}", &path_char.to_string().green());
                 } else {
-                    result.push(default)
+                    print!("{}", &format!("{:?}", self.get_ref(&pos).unwrap()))
                 }
             }
 
-            result.push('\n');
+            println!();
         }
-
-        println!("{result}");
     }
 
     pub fn display(&self) {
