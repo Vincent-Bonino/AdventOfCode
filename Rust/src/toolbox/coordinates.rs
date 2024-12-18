@@ -2,7 +2,7 @@ use crate::toolbox::Direction;
 use std::fmt::{Debug, Formatter};
 use std::ops::{Add, Mul};
 
-#[derive(Copy, Clone, Default, Eq, Hash, PartialEq)]
+#[derive(Copy, Clone, Default, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub struct Coordinates {
     pub x: i32,
     pub y: i32,

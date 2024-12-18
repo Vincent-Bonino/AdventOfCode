@@ -1,5 +1,6 @@
 use crate::toolbox::coordinates::Coordinates;
 use colored::Colorize;
+use faer::sparse::ops::sub;
 use itertools::Itertools;
 use std::fmt::{format, Debug};
 
@@ -98,6 +99,22 @@ impl Grid<char> {
         Self {
             data: value.lines().map(|line| line.chars().collect()).collect(),
         }
+    }
+}
+
+impl<T: Clone> Grid<T> {
+    pub fn fill(value: T, depth: usize, width: usize) -> Self {
+        let mut sub_data: Vec<T> = Vec::with_capacity(width);
+        for _ in 0..width {
+            sub_data.push(value.clone());
+        }
+
+        let mut data: Vec<Vec<T>> = Vec::with_capacity(depth);
+        for _ in 0..depth {
+            data.push(sub_data.clone());
+        }
+
+        Self { data }
     }
 }
 
