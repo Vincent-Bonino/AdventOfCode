@@ -1,6 +1,9 @@
 use std::process::exit;
 
 use clap::Parser;
+use colored::Colorize;
+#[cfg(feature = "benchmark")]
+use instant::Instant;
 
 use aoc24::aoc::Aoc24Solution;
 use aoc24::cli::Args;
@@ -68,15 +71,51 @@ fn main() {
             continue;
         }
 
-        let part_one: i128 = sol.solve_part_one(args.use_test);
-        let part_two: i128 = if part_one > 0 {
-            sol.solve_part_two(args.use_test)
-        } else {
-            -2
-        };
+        #[cfg(feature = "benchmark")]
+        {
+            // Run part 1
+            let now = Instant::now();
+            let part_one: i128 = sol.solve_part_one(args.use_test);
+            let part_01_time = now.elapsed().as_micros();
 
-        println!("[Day {target_day:0>2}] Part 1: {part_one}");
-        println!("[Day {target_day:0>2}] Part 2: {part_two}");
+            println!(
+                "[Day {target_day:0>2}] Part 1: {} in {part_01_time} us",
+                part_one.to_string().cyan()
+            );
+
+            // Run part 2
+            if part_one != -1 {
+                let now = Instant::now();
+                let part_two: i128 = sol.solve_part_two(args.use_test);
+                let part_02_time = now.elapsed().as_micros();
+
+                println!(
+                    "[Day {target_day:0>2}] Part 2: {} in {part_02_time} us",
+                    part_two.to_string().cyan()
+                );
+            } else {
+                println!("No part two yet");
+            };
+        }
+
+        #[cfg(not(feature = "benchmark"))]
+        {
+            let part_one: i128 = sol.solve_part_one(args.use_test);
+            println!(
+                "[Day {target_day:0>2}] Part 1: {}",
+                part_one.to_string().cyan()
+            );
+
+            if part_one != -1 {
+                let part_two: i128 = sol.solve_part_two(args.use_test);
+                println!(
+                    "[Day {target_day:0>2}] Part 2: {}",
+                    part_two.to_string().cyan()
+                );
+            } else {
+                println!("No part two yet");
+            };
+        }
 
         found = true;
         break;
