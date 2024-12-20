@@ -56,6 +56,10 @@ impl Coordinates {
             y: self.y + delta_y,
         }
     }
+
+    pub fn manhattan_distance_to(&self, other: &Coordinates) -> i32 {
+        (self.x - other.x).abs() + (self.y - other.y).abs()
+    }
 }
 
 impl Debug for Coordinates {
