@@ -8,6 +8,7 @@ clap = { version = "~4.4.0", features = ["derive"] }
 colored = "2.2.0"
 faer = { version = "0.19.4", default-features = false }
 #indicatif = "0.17.9"
+hashbrown = "0.15.2"
 instant = { version = "0.1.13", optional = true }
 itertools = "0.13.0"
 nom = "7.1.3"
