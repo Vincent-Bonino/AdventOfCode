@@ -70,6 +70,7 @@ select = [
 ]
 ignore = [
   "F401",   # Unused imports
+  "E226",   # Yapf and ruff disagree
 ]
 
 [tool.ruff.lint.per-file-ignores]
