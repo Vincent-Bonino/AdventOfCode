@@ -18,8 +18,8 @@ pub fn solve_part_one(computer: &Computer) -> i128 {
 }
 
 pub fn solve_part_two(computer: &Computer) -> i128 {
-    let reference_program: &Vec<u8> = &computer.stack;
-    let mut result: Vec<u8> = Vec::new();
+    let _reference_program: &Vec<u8> = &computer.stack;
+    let _result: Vec<u8> = Vec::new();
 
     // for i in 0..reference_program.len() {
     //     let i: u32 = i as u32;
