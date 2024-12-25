@@ -32,6 +32,7 @@ use aoc24::day20::Day20;
 use aoc24::day22::Day22;
 use aoc24::day23::Day23;
 use aoc24::day24::Day24;
+use aoc24::day25::Day25;
 
 fn main() {
     println!("Advent of Code 2024!\n");
@@ -69,6 +70,7 @@ fn main() {
         Box::new(Day22::default()),
         Box::new(Day23::default()),
         Box::new(Day24::default()),
+        Box::new(Day25::default()),
     ];
 
     // Find the right solution
@@ -97,10 +99,14 @@ fn main() {
                 let part_two: i128 = sol.solve_part_two(args.use_test);
                 let part_02_time = now.elapsed().as_micros();
 
-                println!(
-                    "[Day {target_day:0>2}] Part 2: {} in {part_02_time} us",
-                    part_two.to_string().cyan()
-                );
+                if args.day <= 25 {
+                    println!(
+                        "[Day {target_day:0>2}] Part 2: {} in {part_02_time} us",
+                        part_two.to_string().cyan()
+                    );
+                } else {
+                    println!("Merry Christmas !");
+                }
             } else {
                 println!("No part two yet");
             };
@@ -115,11 +121,15 @@ fn main() {
             );
 
             if part_one != -1 {
-                let part_two: i128 = sol.solve_part_two(args.use_test);
-                println!(
-                    "[Day {target_day:0>2}] Part 2: {}",
-                    part_two.to_string().cyan()
-                );
+                if args.day < 25 {
+                    let part_two: i128 = sol.solve_part_two(args.use_test);
+                    println!(
+                        "[Day {target_day:0>2}] Part 2: {}",
+                        part_two.to_string().cyan()
+                    );
+                } else {
+                    println!("Merry Christmas !");
+                }
             } else {
                 println!("No part two yet");
             };
