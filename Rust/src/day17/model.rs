@@ -87,7 +87,7 @@ impl Computer {
         self.stdout.clone()
     }
 
-    pub fn format_stdout(stdout: &Vec<u8>) -> String {
+    pub fn format_stdout(stdout: &[u8]) -> String {
         let str_stdout: Vec<String> = stdout.iter().map(|val| val.to_string()).collect();
         str_stdout.join(",")
     }
@@ -119,7 +119,7 @@ impl Computer {
     #[allow(dead_code)]
     fn decompile_combo(combo: &u8) -> String {
         match combo {
-            0 | 1 | 2 | 3 => combo.to_string(),
+            0..=3 => combo.to_string(),
             4 => String::from("A"),
             5 => String::from("B"),
             6 => String::from("C"),
@@ -145,7 +145,7 @@ impl Computer {
 
     fn resolve_combo(&self, combo: u8) -> u32 {
         match combo {
-            0 | 1 | 2 | 3 => combo as u32,
+            0..=3 => combo as u32,
             4 => self.a,
             5 => self.b,
             6 => self.c,
@@ -157,13 +157,13 @@ impl Computer {
     /// Division (opcode=0)
     #[inline]
     fn run_adv(&mut self, operand: u8) {
-        self.a = self.a >> self.resolve_combo(operand)
+        self.a >>= self.resolve_combo(operand)
     }
 
     /// Bitwise XOR (opcode=1)
     #[inline]
     fn run_bxl(&mut self, operand: u8) {
-        self.b = self.b ^ (operand as u32)
+        self.b ^= operand as u32
     }
 
     /// Modulo (opcode=2)
@@ -186,7 +186,7 @@ impl Computer {
     /// Bitwise XOR (opcode=4)
     #[inline]
     fn run_bxc(&mut self, _operand: u8) {
-        self.b = self.b ^ self.c
+        self.b ^= self.c
     }
 
     /// Write to stdout (opcode=5)
