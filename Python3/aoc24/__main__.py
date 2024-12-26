@@ -9,6 +9,7 @@ import aoc24.day00
 import aoc24.day01
 import aoc24.day02
 import aoc24.day03
+import aoc24.day17
 import aoc24.day21
 
 

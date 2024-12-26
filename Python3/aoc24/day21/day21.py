@@ -1,4 +1,4 @@
-"""Example solution."""
+"""Solution of day21."""
 
 from typing import Any, ClassVar
 
@@ -8,7 +8,7 @@ from .solve import solve_part_one, solve_part_two
 
 
 class Day21(Solution):
-    """Example solution."""
+    """Solution of day21."""
 
     day: ClassVar[int] = 21
     test_name: ClassVar[str | None] = None
@@ -20,8 +20,6 @@ class Day21(Solution):
         super().__init__(*args, **kwargs)
 
         self.codes = list(map(str.strip, self.file.open('r', encoding="utf-8").readlines()))
-
-        print(self.codes)
 
     def solve_part_one(self) -> int:
         """Solution for part one."""

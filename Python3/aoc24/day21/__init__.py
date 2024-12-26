@@ -1,4 +1,4 @@
-"""Day 00 package."""
+"""Day 21 package."""
 
 from .day21 import Day21
 
