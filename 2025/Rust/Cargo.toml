@@ -1,0 +1,7 @@
+[workspace]
+resolver = "2"
+
+members = [
+    "aoc25",
+    "aoc25-macros",
+]
