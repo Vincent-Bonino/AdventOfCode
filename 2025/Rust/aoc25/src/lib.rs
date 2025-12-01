@@ -6,7 +6,7 @@ pub mod cli;
 pub mod solution;
 pub mod tools;
 
-pub mod day00;
+pub mod day01;
 
 /// Number of puzzle to solve this year.
 pub static DAY_NUMBER: usize = 12;
