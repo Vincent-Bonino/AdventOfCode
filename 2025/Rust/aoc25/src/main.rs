@@ -27,7 +27,7 @@ fn main() {
     println!("Advent of Code 2025!\n");
 
     // Create index of solutions
-    let solutions: Vec<Box<dyn Aoc25Solution>> = build_solution_index!(01, 02, 03);
+    let solutions: Vec<Box<dyn Aoc25Solution>> = build_solution_index!(01, 02, 03, 04);
 
     let args: Aoc25Args = Aoc25Args::parse();
     let result = match args.command {
