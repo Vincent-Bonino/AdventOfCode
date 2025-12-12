@@ -17,6 +17,7 @@ pub mod day08;
 // pub mod day09;
 // pub mod day10;
 pub mod day11;
+pub mod day12;
 
 /// Number of puzzle to solve this year.
 pub static DAY_NUMBER: usize = 12;
