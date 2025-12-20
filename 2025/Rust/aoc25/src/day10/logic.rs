@@ -41,7 +41,8 @@ pub fn solve_part_two(lines: &[InputLine]) -> String {
 }
 
 fn init_machine_p2(buttons: &[Button], target: &PartTwoTarget) -> usize {
-    let all_presses: Vec<Vec<&Button>> = (1..=buttons.len())
+    // Pre-compute all possible combinations of presses (from 0 to all buttons)
+    let all_presses: Vec<Vec<&Button>> = (0..=buttons.len())
         .flat_map(|i| buttons.iter().combinations(i))
         .collect();
 
@@ -90,11 +91,12 @@ fn _init_machine_p2(
     // Sub-computations
     //
 
-    // A. Compute partial solutions, i.e. solving to have an all-even target, then solve the half of it
+    // Compute partial solutions, i.e. solving to have an all-even target, then solve the half of it.
+    // "Special" case of pressing no button is handled too.
     let partial_int_target: IntButton = p2_target_to_int_button(target);
     let partial_solutions: Vec<&Vec<&Button>> = init_partial_machine_p2(presses, partial_int_target);
 
-    let mut sub_results: Vec<usize> = Vec::with_capacity(partial_solutions.len() + 1);
+    let mut sub_results: Vec<usize> = Vec::with_capacity(partial_solutions.len());
 
     for part_sol in partial_solutions {
         // Make sure this partial solution is possible (not having a negative value for instance)
@@ -104,16 +106,6 @@ fn _init_machine_p2(
             if let Some(mut halved_solution) = _init_machine_p2(presses, &halved_target, cache) {
                 sub_results.push(part_sol.len() + 2 * halved_solution);
             }
-        }
-    }
-
-    // B. For already all-even targets, the computation is simpler
-    if target.iter().all(|t| *t % 2 == 0) {
-        let result = _init_machine_p2(presses, &p2_target_to_halved((*target).clone()), cache).map(|r| 2 * r);
-
-        if let Some(res) = result {
-            cache.insert((*target).clone(), Some(res));
-            sub_results.push(res);
         }
     }
 
