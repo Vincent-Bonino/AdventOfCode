@@ -46,8 +46,16 @@ fn init_machine_p2(buttons: &[Button], target: &PartTwoTarget) -> usize {
         .flat_map(|i| buttons.iter().combinations(i))
         .collect();
 
+    // Pre-compute partial solutions
+    let partial_solution_count: usize = 2_usize.pow(target.len() as u32);
+    let mut partial_solutions: HashMap<IntButton, Vec<&Vec<&Button>>> = HashMap::with_capacity(partial_solution_count);
+    for comb in &all_presses {
+        let comb_res: IntButton = comb.iter().map(|btn| btn.to_int()).fold(0, |acc, val| acc ^ val);
+        partial_solutions.entry(comb_res).or_default().push(comb);
+    }
+
     let mut cache: HashMap<PartTwoTarget, Option<usize>> = HashMap::new();
-    _init_machine_p2(&all_presses, target, &mut cache).unwrap()
+    _init_machine_p2(&partial_solutions, target, &mut cache).unwrap()
 
     // -- Debug, show pressed buttons
     // let mut cache: HashMap<PartTwoTarget, Option<Vec<&Button>>> = HashMap::new();
@@ -74,7 +82,7 @@ fn init_machine_p2(buttons: &[Button], target: &PartTwoTarget) -> usize {
 }
 
 fn _init_machine_p2(
-    presses: &[Vec<&Button>],
+    partial_solutions_cache: &HashMap<IntButton, Vec<&Vec<&Button>>>,
     target: &PartTwoTarget,
     cache: &mut HashMap<PartTwoTarget, Option<usize>>,
 ) -> Option<usize> {
@@ -94,7 +102,10 @@ fn _init_machine_p2(
     // Compute partial solutions, i.e. solving to have an all-even target, then solve the half of it.
     // "Special" case of pressing no button is handled too.
     let partial_int_target: IntButton = p2_target_to_int_button(target);
-    let partial_solutions: Vec<&Vec<&Button>> = init_partial_machine_p2(presses, partial_int_target);
+    if !partial_solutions_cache.contains_key(&partial_int_target) {
+        return None;
+    }
+    let partial_solutions: &Vec<&Vec<&Button>> = &partial_solutions_cache[&partial_int_target];
 
     let mut sub_results: Vec<usize> = Vec::with_capacity(partial_solutions.len());
 
@@ -103,7 +114,7 @@ fn _init_machine_p2(
         if let Some(partial_target) = p2_apply_presses_to_target(part_sol, target) {
             let halved_target: PartTwoTarget = p2_target_to_halved(partial_target);
 
-            if let Some(mut halved_solution) = _init_machine_p2(presses, &halved_target, cache) {
+            if let Some(mut halved_solution) = _init_machine_p2(partial_solutions_cache, &halved_target, cache) {
                 sub_results.push(part_sol.len() + 2 * halved_solution);
             }
         }
